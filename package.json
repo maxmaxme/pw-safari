@@ -1,0 +1,13 @@
+{
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "start": "serve",
+    "test": "playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "1.49.0",
+    "@types/node": "22.10.0",
+    "serve": "14.2.4"
+  }
+}

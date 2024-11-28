@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Playwright</title>
+  </head>
+  <body>
+    <script type="module">
+      const n = btoa('self.postMessage({ type: "ready" })'),
+        s = (e) => Uint8Array.from(atob(e), (t) => t.charCodeAt(0)),
+        a = typeof self < 'u' && self.Blob && new Blob([s(n)], { type: 'text/javascript;charset=utf-8' });
+      function d(e) {
+        let t;
+        try {
+          if (((t = a && (self.URL || self.webkitURL).createObjectURL(a)), !t)) throw '';
+          const r = new Worker(t, {
+            name: e == null ? void 0 : e.name,
+          });
+          return (
+            r.addEventListener('error', () => {
+              (self.URL || self.webkitURL).revokeObjectURL(t);
+            }),
+            r
+          );
+        } catch {
+          return new Worker('data:text/javascript;base64,' + n, {
+            name: e == null ? void 0 : e.name,
+          });
+        } finally {
+          t && (self.URL || self.webkitURL).revokeObjectURL(t);
+        }
+      }
+      async function l() {
+        await new Promise((t) => {
+          new d().addEventListener('message', (c) => {
+            c.data.type === 'ready' && t();
+          });
+        });
+        const e = document.createElement('div');
+        (e.dataset.testid = 'message'), (e.textContent = 'Playwright is working!'), document.body.appendChild(e);
+      }
+      l();
+    </script>
+  </body>
+</html>
